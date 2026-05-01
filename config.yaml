@@ -1,0 +1,28 @@
+data:
+  raw_path: "data/subastas_raw.csv"
+  clean_path: "data/subastas_clean.csv"
+
+mlflow:
+  tracking_uri: "mlruns"
+  experiment_name: "subastas_precio_kg"
+
+model:
+  n_estimators: 200
+  max_depth: 6
+  learning_rate: 0.1
+  subsample: 0.8
+  test_size: 0.2
+  random_state: 42
+
+preprocessing:
+  target: "precio_final_kg"
+  outlier_lower_pct: 0.01
+  outlier_upper_pct: 0.99
+  top_procedencias: 30
+  drop_columns:
+    - "id"
+    - "archivo_fuente"
+    - "creado_en"
+    - "hora_subasta"
+    - "numero_lote"
+    - "numero_boletin"

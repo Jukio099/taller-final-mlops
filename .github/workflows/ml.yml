@@ -1,0 +1,40 @@
+name: ML Pipeline - Subastas Ganaderas
+
+on:
+  push:
+    branches: [main]
+  pull_request:
+    branches: [main]
+
+jobs:
+  ml-pipeline:
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout repositorio
+        uses: actions/checkout@v4
+
+      - name: Configurar Python 3.11
+        uses: actions/setup-python@v5
+        with:
+          python-version: "3.11"
+          cache: "pip"
+
+      - name: Instalar dependencias
+        run: make install
+
+      - name: Lint (flake8)
+        run: make lint
+
+      - name: Pruebas de validación
+        run: make test
+
+      - name: Entrenamiento del modelo
+        run: make train
+
+      - name: Subir modelo como artefacto
+        uses: actions/upload-artifact@v4
+        with:
+          name: mlflow-model-subastas
+          path: mlruns/
+          retention-days: 30
